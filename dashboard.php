@@ -2,12 +2,16 @@
     require 'includes/config.php';
     require 'partials/header.php';
     require 'partials/navigation.php';
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $title = $img_url = $content = $link = '';
-    
+
     $title = $_POST['title'];
     $img_url = $_POST['img_url'];
     $content = $_POST['content'];
     $link = $_POST['link'];
+    addProject($dbh, $title, $img_url, $content, $link);
+}
  ?>
 
         <!-- Start of Content -->
@@ -33,7 +37,7 @@
                                     <label for="projectName" class="col-md-4 control-label">Title</label>
 
                                     <div class="col-md-6">
-                                        <input id="projectName" type="text" class="form-control" name="projectName" value="<?= !empty($title) ? $title : '' ?>" required="" autofocus="">
+                                        <input id="projectName" type="text" class="form-control" name="title" value="" required="" autofocus="">
                                     </div>
                                 </div>
 
@@ -42,7 +46,7 @@
                                     <label for="projectImgUrl" class="col-md-4 control-label">Image Url</label>
 
                                     <div class="col-md-6">
-                                        <input id="projectImgUrl" type="text" class="form-control" name="projectImgUrl" value="" required="" autofocus=""  onchange="readURL(this)">
+                                        <input id="projectImgUrl" type="text" class="form-control" name="img_url" value="" required="" autofocus=""  onchange="readURL(this)">
                                     </div>
                                 </div>
 
@@ -51,7 +55,7 @@
                                     <label for="projectContent" class="col-md-4 control-label">Content</label>
 
                                     <div class="col-md-6">
-                                        <input id="projectContent" type="text" class="form-control" name="projectContent" value="" required="" autofocus="">
+                                        <input id="projectContent" type="text" class="form-control" name="content" value="" required="" autofocus="">
                                     </div>
                                 </div>
 
@@ -60,7 +64,7 @@
                                     <label for="projectLink" class="col-md-4 control-label">Link</label>
 
                                     <div class="col-md-6">
-                                        <input id="projectLink" type="text" class="form-control" name="projectLink" value="" required="" autofocus="">
+                                        <input id="projectLink" type="text" class="form-control" name="link" value="" required="" autofocus="">
                                     </div>
                                 </div>
 

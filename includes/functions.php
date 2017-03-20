@@ -19,7 +19,7 @@ function getProjects($dbh) {
 
 function addProject($dbh, $title, $img_url, $content, $link) {
 	// prepares the statement that will be executed
-	 $sth = $dbh->prepare("INSERT INTO projects (title, img_url, content, link, created_at, updated_at) VALUES (:title, :img_url, :content, link, NOW(), NOW())");
+	 $sth = $dbh->prepare("INSERT INTO projects (title, img_url, content, link, created_at, updated_at) VALUES (:title, :img_url, :content, :link, NOW(), NOW())");
 
 	 // binds all the values together
 	 $sth->bindParam(':title', $title, PDO::PARAM_STR);
