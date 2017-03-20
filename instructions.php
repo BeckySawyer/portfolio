@@ -27,16 +27,34 @@
                                 Add some dummy data for projects to be used for display.
                             </li>
                             <li>
-                                Then create a config.php file and connect the database up.
+                                Then create a config.php file and connect the database up. (Hint: connectDatabase() from Boogle)
                             </li>
                             <li>
-                                Create a foreach loop for the index page and loop over all projects in the database.
+                                Create a foreach loop for the index page and loop over all projects in the database. (Hint: getWebsites() from Boogle)
                             </li>
                             <li>
                                 Once done, wait for more instructions or add some fancy features of your own.
                             </li>
-
-
+                            <hr>
+                            <li>
+                                After successfully showing projects from the database, use the form in dashboard.php to insert projects into the table. (Hint: addFeedbackToDatabase() from Boogle)
+                            </li>
+                            <li>
+                                You have successfully completed the CR out of CRUD (Short for Create, Read, Update, Delete/Destroy) Google it for more information.
+                            </li>
+                            <li>
+                                Once done, wait for more instructions and add some PHP validation (Groan).
+                            </li>
+                            <li>
+                                Once done, wait for more instructions and add some PHP validation (Groan).
+                            </li>
+                            <hr>
+                            <li>
+                                Add a button on each of the projects on the index.php page to delete. Style accordingly and research how to add JavaScript to confirm delete.
+                            </li>
+                            <li>
+                                Do the delete. That is all.
+                            </li>
                         </ul>
 
                         </div>
