@@ -26,6 +26,10 @@
                             <a href="<?= $project['link'] ?>" class="btn btn-default btn-xs">
                                 View
                             </a>
+
+                            <form method="POST" action="partials/delete.php">
+                            <button class="btn btn-default btn-xs" onclick="return confirm('Are you sure you want to delete this item?');"> Delete </button>
+                            </form>
                         </div>
                     </div>
                 </div>
