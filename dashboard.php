@@ -2,6 +2,12 @@
     require 'includes/config.php';
     require 'partials/header.php';
     require 'partials/navigation.php';
+    $title = $img_url = $content = $link = '';
+    
+    $title = $_POST['title'];
+    $img_url = $_POST['img_url'];
+    $content = $_POST['content'];
+    $link = $_POST['link'];
  ?>
 
         <!-- Start of Content -->
@@ -27,7 +33,7 @@
                                     <label for="projectName" class="col-md-4 control-label">Title</label>
 
                                     <div class="col-md-6">
-                                        <input id="projectName" type="text" class="form-control" name="projectName" value="" required="" autofocus="">
+                                        <input id="projectName" type="text" class="form-control" name="projectName" value="<?= !empty($title) ? $title : '' ?>" required="" autofocus="">
                                     </div>
                                 </div>
 
