@@ -32,9 +32,9 @@
                         </div>
 
                         <div class="panel-body">
-                            <h4><?= $project['title'] ?></h4>
+                            <h4><?= substr($project['title'], 0 , 20) ?></h4>
                             <p>
-                                <?= $project['content'] ?>
+                                <?= substr($project['content'], 0, 100) ?>
                             </p>
                             <a href="<?= $project['link'] ?>" class="btn btn-default btn-xs">
                                 View
