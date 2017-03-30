@@ -31,3 +31,33 @@ function addProject($dbh, $title, $img_url, $content, $link) {
 	 $success = $sth->execute();
 	 return $success;
 }
+
+function deleteProject($id, $dbh) {
+	$result = $dbh->prepare("DELETE FROM projects WHERE id = :id");
+	$result->bindParam(':id', $id);
+	$result->execute();
+}
+
+function redirect($url) {
+ 	header('Location: ' . $url);
+ 	die();
+}
+
+function editProject($id, $dbh) {
+	$sth = $dbh->prepare("SELECT * FROM projects WHERE id = :id");
+	$sth->bindParam(':id', $id, PDO::PARAM_STR);
+	$sth->execute();
+	$result = $sth->fetch();
+	return $result;
+}
+
+function updateProject($id, $dbh, $title, $img_url, $content, $link) {
+	$sth = $dbh->prepare("UPDATE projects SET title = :title, img_url = :img_url, content = :content, link = :link WHERE id = :id");
+	$sth->bindParam(':id', $id, PDO::PARAM_STR);
+	$sth->bindParam(':title', $title, PDO::PARAM_STR);
+	$sth->bindParam(':img_url', $img_url, PDO::PARAM_STR);
+	$sth->bindParam(':content', $content, PDO::PARAM_STR);
+	$sth->bindParam(':link', $link, PDO::PARAM_STR);
+	$result = $sth->execute();
+	return $result;
+}
