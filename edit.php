@@ -67,3 +67,7 @@ $editProject = editProject($_GET['id'], $dbh);
 </div>
 
 </form>
+
+<?php
+    require 'partials/footer.php';
+?>
