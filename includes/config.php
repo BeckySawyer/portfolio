@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 require 'includes/functions.php';
 
 $host = 'localhost';
