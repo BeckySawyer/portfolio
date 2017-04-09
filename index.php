@@ -12,6 +12,12 @@
             // editProject($id, $dbh);
             redirect('edit.php?id=' . $id);
         }
+
+        if ($_POST["_method"] == "view") {
+            $id=$_POST['viewid'];
+            // editProject($id, $dbh);
+            redirect('view.php?id=' . $id);
+        }
     }
     require 'partials/header.php';
     require 'partials/navigation.php';
@@ -20,6 +26,7 @@
         <!-- Start of Content -->
         <div class="container">
             <div class="row">
+            <?= showMessage() ?>
             <!-- Your loop will start here and loop through the card markup -->
             <?php
             foreach ($projects as $project):
@@ -36,26 +43,29 @@
                             <p>
                                 <?= substr($project['content'], 0, 100) ?>
                             </p>
-                            <a href="<?= $project['link'] ?>" class="btn btn-default btn-xs">
-                                View
-                            </a>
 
-                            <form method="POST" action="index.php">
-                            <input name="_method" value="delete" type="hidden">
-                            <input name="id" value="<?= $project['id'] ?>" type="hidden">
-
-                            <button class="btn btn-default btn-xs" onclick="return confirm('Are you sure you want to delete this item?');" type="submit"> Delete </button>
+                            <form method="POST" action="index.php" style="display: inline-block;">
+                                <input name="_method" value="view" type="hidden">
+                                <input name="viewid" value="<?= $project['id'] ?>" type="hidden">
+                                <button class="btn btn-default btn-xs" type="submit"> <i class="icon ion-eye"></i> View </button>
+                            </form>
+                            
+                            <div class="pull-right">
+                            <form action="index.php" method="POST" style="display: inline-block;">
+                                <input name="_method" value="delete" type="hidden">
+                                <input name="id" value="<?= $project['id'] ?>" type="hidden">
+                                <button class="btn btn-danger btn-xs" onclick="return confirm('are you sure you want to delete this item');" type="submit"><i class="icon ion-ios-close-outline"></i> Delete</button>
                             </form>
 
-                            <form method="POST" action="index.php">
-                            <input name="_method" value="edit" type="hidden">
-                            <input name="editid" value="<?= $project['id'] ?>" type="hidden">
-
-                            <button class="btn btn-default btn-xs" type="submit"> Edit </button>
+                            <form method="POST" action="index.php" style="display: inline-block;">
+                                <input name="_method" value="edit" type="hidden">
+                                <input name="editid" value="<?= $project['id'] ?>" type="hidden">
+                                <button class="btn btn-info btn-xs" type="submit"> <i class="icon ion-edit"></i> Edit</button>
                             </form>
 
                         </div>
                     </div>
+                </div>
                 </div>
                 <!-- End of Card -->
 <?php
