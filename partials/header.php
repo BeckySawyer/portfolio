@@ -7,6 +7,8 @@
 
     <title>Portfolio</title>
 
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- Styles -->
     <!-- Bootstrap -->
     <link href="css/app.css" rel="stylesheet">
