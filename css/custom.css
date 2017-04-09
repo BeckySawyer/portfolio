@@ -1,3 +1,10 @@
 .card-header{
   padding: none;
 }
+.nav-profile-photo {
+    border: 1px solid #d3e0e9;
+    border-radius: 50%;
+    height: 30px;
+    width: 30px;
+    padding: 1px;
+}
