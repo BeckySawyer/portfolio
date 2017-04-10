@@ -1,6 +1,5 @@
 <?php
 require 'includes/config.php';
-    // $userDetails = (!empty($_GET['username']) && !empty($_GET['password'])) ? htmlspecialchars($_GET['username'] && $_GET['password'],  ENT_QUOTES, 'utf-8') : '';
     
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
      

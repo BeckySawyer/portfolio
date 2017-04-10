@@ -33,7 +33,7 @@
                 ?>
                 <!-- Start of Card -->
                 <div class="col-md-3">
-                    <div class="panel panel-default">
+                    <div class="panel panel-default" style="min-height: 400px">
                         <div class="panel-heading card-header">
                         <img class="img-responsive" src="<?= $project['img_url'] ?>">
                         </div>
