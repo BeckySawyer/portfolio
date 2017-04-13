@@ -11,5 +11,4 @@ $database = 'portfolio';
 
 // variable for connecting database
 $dbh = connectDatabase($host, $database, $user, $pass);
-$projects = getProjects($dbh);
 // die(var_dump($projects));
