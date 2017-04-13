@@ -133,6 +133,12 @@ function getComments($id, $dbh) {
 	return false;
 }
 
+function deleteComment($id, $dbh) {
+  $result = $dbh->prepare("DELETE FROM comments WHERE id = :id LIMIT 1");
+  $result->bindParam(':id', $id);
+  $result->execute();
+}
+
 /**
  * Description
  * @param type $value 
