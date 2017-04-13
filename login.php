@@ -19,6 +19,7 @@ require 'includes/config.php';
     // add data to sessions
         $_SESSION['username'] = $user['username'];
         $_SESSION['email'] = $user['email'];
+        $_SESSION['id'] = $user['id'];
             addMessage('success','You have been logged in');
             redirect('index.php');
         }
