@@ -19,6 +19,7 @@
             redirect('view.php?id=' . $id);
         }
     }
+    $projects = getProjects($dbh);
     require 'partials/header.php';
     require 'partials/navigation.php';
  ?>
@@ -50,6 +51,7 @@
                                 <button class="btn btn-default btn-xs" type="submit"> <i class="icon ion-eye"></i> View </button>
                             </form>
                             
+                            <?php if (userOwns($project['user_id'])): ?>
                             <div class="pull-right">
                             <form action="index.php" method="POST" style="display: inline-block;">
                                 <input name="_method" value="delete" type="hidden">
@@ -64,6 +66,7 @@
                             </form>
 
                         </div>
+                    <? endif; ?>
                     </div>
                 </div>
                 </div>
