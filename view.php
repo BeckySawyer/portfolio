@@ -3,14 +3,22 @@ require 'includes/config.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && loggedIn()) {
     $content = $project_id = '';
-    $content = e($_POST['content']);
-    $project_id = e($_POST['project_id']);
+    $project_id = $_POST['project_id'];
+
     if ($_POST["_method"] == "ADD") {
+      $content = $_POST['content'];
             $id = $_POST['project_id'];
             addComment($dbh, $project_id, $content);
             addMessage('success', 'Comment successfully added');
-            redirect('view.php?id=' . $id);
+            redirect('view.php?id=' . $project_id);
         }
+
+        if ($_POST["_method"] == "delete") {
+    $id = $_POST['id'];
+    deleteComment($id, $dbh);
+    addmessage('success', "You have successfully deleted a comment");
+    redirect("view.php?id=" . $project_id);
+  }
 }
 
 $singleProject = singleProject($_GET['id'], $dbh);
@@ -103,7 +111,20 @@ require 'partials/navigation.php';
               <h4 class="media-heading"><?= $comment['username'] ?>                      
                 <br>
                 <div class="pull-right">
-                  <small><?= formatTime(strtotime($comment['created_at'])) ?> </small>&nbsp;
+                  <small><?= formatTime(strtotime($comment['created_at'])) ?> </small> &nbsp;
+<?php if(userOwns($comment['user_id'])): ?>
+                  <form method="POST" action="view.php" style="display: inline-block;">
+
+                        <input name="_method" type="hidden" value="delete">
+
+                        <input name="id" type="hidden" value="<?= $comment['id']?>">
+                        <input name="project_id" value="<?= $singleProject['id'] ?>" type="hidden" >
+                        <button onclick="return confirm('Are you sure you want to delete this item?');" type="submit" class="btn btn-default btn-xs btn-danger">
+                          <i class="icon ion-ios-close-outline"></i> Delete
+                        </button>
+
+                      </form>
+                    <? endif; ?>
                 </div>
               </h4>
               <p><?= $comment['content'] ?> </p>

@@ -15,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		addMessage('error', "Registration was not successful");
 	}
 	if ($_POST["password"] != $_POST["password-confirm"]) {
-		addmessage('error', "The passwords do not match");
+		addMessage('error', "The passwords do not match");
 	}
 	else {	
 		$registered = addUser($dbh, $username, $email, $hashedPassword);
@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		if($registered) {   
 		$_SESSION['username'] = $username;
 		$_SESSION['email'] = $email;
-		 $_SESSION['id'] = $user['id'];
+		$_SESSION['id'] = $user['id'];
 		addmessage('success', "You have registered successfully");
 		redirect("index.php");
 	}
