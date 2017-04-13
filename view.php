@@ -1,10 +1,26 @@
 <?php
 require 'includes/config.php';
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && loggedIn()) {
+    $content = $project_id = '';
+    $content = e($_POST['content']);
+    $project_id = e($_POST['project_id']);
+    if ($_POST["_method"] == "ADD") {
+            $id = $_POST['project_id'];
+            addComment($dbh, $project_id, $content);
+            addMessage('success', 'Comment successfully added');
+            redirect('view.php?id=' . $id);
+        }
+}
+
 $singleProject = singleProject($_GET['id'], $dbh);
+$comments = getComments($_GET['id'], $dbh);
+// die (var_dump($comments));
 require 'partials/header.php';
 require 'partials/navigation.php';
 ?>
 <div class="container">
+ <?= showMessage() ?>
   <div class="row">
     <div class="col-md-12">
     </div>
@@ -48,17 +64,19 @@ require 'partials/navigation.php';
       <h3 class="panel-title">Recent Comments</h3>
     </div>
     <div class="panel-body">
+
+<?php if(loggedIn()): ?>
         <ul class="media-list">
           <li class="media">
             <div class="media-left">
-              <img class="comments-profile-photo" src="https://www.gravatar.com/avatar/722386073723549e170eccc06a566818?s=80&d=mm&r=g">
+              <img class="comments-profile-photo" img src="<?= get_gravatar($email = $_SESSION['email'])?>">
             </div>
             <div class="media-body">
               <div class="form-group" style="padding:12px;">
-                <form method="POST" action="view.php?id=6">
+                <form method="POST" action="view.php">
 
                   <input name="_method" type="hidden" value="ADD">
-
+                  <input name="project_id" value="<?= $singleProject['id'] ?>" type="hidden">
                   <textarea name="content" class="form-control animated" placeholder="Leave a comment"></textarea>
 
                   <button class="btn btn-info pull-right" style="margin-top:10px" type="submit">Post</button>
@@ -67,41 +85,47 @@ require 'partials/navigation.php';
             </div>
           </li>
         </ul>
-        <hr>
 
+        <hr>
+<? endif; ?>
+
+      
+<?php
+  if(!empty($comments)): 
+            foreach ($comments as $comment):
+                ?>
         <ul class="media-list">
           <li class="media">
             <div class="media-left">
-             <img src="https://www.gravatar.com/avatar/1e0fd3e785708a7ae747de2972159ce1?s=80&d=mm&r=g" class="comments-profile-photo">
+                                <img class="comments-profile-photo" img src="<?= get_gravatar($email = $comment['email'])?>">
             </div>
             <div class="media-body">
-              <h4 class="media-heading">ashleybakernz                      
+              <h4 class="media-heading"><?= $comment['username'] ?>                      
                 <br>
                 <div class="pull-right">
-                  <small>14 hours ago</small>&nbsp;
+                  <small><?= formatTime(strtotime($comment['created_at'])) ?> </small>&nbsp;
                 </div>
               </h4>
-              <p>This is laaammeee.</p>
+              <p><?= $comment['content'] ?> </p>
             </div>
           </li>
         </ul>
+<?php
+endforeach;
+else:
+?>
 
-        <ul class="media-list">
-          <li class="media">
-            <div class="media-left">
-              <img src="https://www.gravatar.com/avatar/a817d8d52e5dc2cb5305c198e3a9de7d?s=80&d=mm&r=g" class="comments-profile-photo">
-            </div>
-            <div class="media-body">
-              <h4 class="media-heading">Danny<br>
-                <div class="pull-right">
-                  <small>14 hours ago</small>&nbsp;
+<ul class="media-list">
+              <li class="media">
+                <div class="media-body">
+                  <p>
+                    No Comments
+                  </p>
                 </div>
-              </h4>
-              <p>This is a comment.</p>
-            </div>
-          </li>
-        </ul>
+              </li>
+            </ul>
 
+            <?php endif; ?>
         </div>
       </div>
     </div>
