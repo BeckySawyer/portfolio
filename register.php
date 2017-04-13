@@ -19,10 +19,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	}
 	else {	
 		$registered = addUser($dbh, $username, $email, $hashedPassword);
+		$user = getUser($dbh, $username);
 
 		if($registered) {   
 		$_SESSION['username'] = $username;
 		$_SESSION['email'] = $email;
+		 $_SESSION['id'] = $user['id'];
 		addmessage('success', "You have registered successfully");
 		redirect("index.php");
 	}
