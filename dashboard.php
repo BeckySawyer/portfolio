@@ -11,6 +11,8 @@
     $content = $_POST['content'];
     $link = $_POST['link'];
     addProject($dbh, $title, $img_url, $content, $link);
+    addMessage('success', 'Project successfully added');
+    redirect('index.php');
 }
  ?>
 
