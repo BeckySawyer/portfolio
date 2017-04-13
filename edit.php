@@ -12,6 +12,11 @@ $editProject = editProject($_GET['id'], $dbh);
 
 ?>
 
+<div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
 <form class="form-horizontal" role="form" method="POST" action="edit.php">
 <input name="id" value="<?= $editProject['id'] ?>" type="hidden">
 <!-- Form Title -->
@@ -67,6 +72,19 @@ $editProject = editProject($_GET['id'], $dbh);
 </div>
 
 </form>
+</div>
+</div>
+</div>
+
+<div class="col-md-4">
+                    <!-- Image Display Thumbnail -->
+                    <div class="form-group">
+                        <img style="display: block;" width="300px" height="200px" id="projectThumbnail" src="img/place-holder.png" class="img-responsive">
+                    </div>
+                </div>
+                
+</div>
+</div>
 
 <?php
     require 'partials/footer.php';
