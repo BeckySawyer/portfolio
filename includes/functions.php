@@ -41,11 +41,12 @@ function getProjects($dbh) {
  * @return boolean
  */
 function addProject($dbh, $title, $img_url, $content, $link) {
-	 $sth = $dbh->prepare("INSERT INTO projects (title, img_url, content, link, created_at, updated_at) VALUES (:title, :img_url, :content, :link, NOW(), NOW())");
+	 $sth = $dbh->prepare("INSERT INTO projects (title, img_url, content, link, created_at, updated_at, user_id) VALUES (:title, :img_url, :content, :link, NOW(), NOW(), :user_id)");
 	 $sth->bindParam(':title', $title, PDO::PARAM_STR);
 	 $sth->bindParam(':img_url', $img_url, PDO::PARAM_STR);
 	 $sth->bindParam(':content', $content, PDO::PARAM_STR);
 	 $sth->bindParam(':link', $link, PDO::PARAM_STR);
+	 $sth->bindParam(':user_id', $_SESSION['id'], PDO::PARAM_INT);
 	 $success = $sth->execute();
 	 return $success;
 }
@@ -119,6 +120,17 @@ function singleProject($id, $dbh) {
 	$sth->execute();
 	$result = $sth->fetch();
 	return $result;
+}
+
+function getComments($id, $dbh) {
+	$sth = $dbh->prepare("SELECT comments.id, comments.content, comments.project_id, comments.user_id, comments.created_at, comments.updated_at, users.username, users.email FROM comments INNER JOIN users ON comments.user_id = users.id WHERE comments.project_id = :id ORDER BY comments.created_at DESC");
+	$sth->bindParam(':id', $id, PDO::PARAM_STR);
+	$sth->execute();
+	$result = $sth->fetchAll();
+	if(!empty($result)) {
+		return $result;
+	}
+	return false;
 }
 
 /**
@@ -226,4 +238,105 @@ function get_gravatar( $email, $s = 80, $d = 'mm', $r = 'g', $img = false, $atts
         $url .= ' />';
     }
     return $url;
+}
+
+function userOwns($id) {
+	if (loggedIn() && $_SESSION['id'] == $id) {
+		return true;
+	}
+	return false;
+}
+
+
+function addComment($dbh, $project_id, $content) {
+	 $sth = $dbh->prepare("INSERT INTO comments (content, user_id, project_id, created_at, updated_at) VALUES (:content, :user_id, :project_id, NOW(), NOW())");
+	 $sth->bindParam(':content', $content, PDO::PARAM_STR);
+	 $sth->bindParam(':user_id', $_SESSION['id'], PDO::PARAM_INT);
+	 $sth->bindParam(':project_id', $project_id, PDO::PARAM_INT);
+	 $success = $sth->execute();
+	 return $success;
+}
+
+/**
+ * Returns a human-readable time from a timestamp
+ * @param timestamp $timestamp
+ * @return string
+ */
+function formatTime($timestamp)
+{
+  // Get time difference and setup arrays
+  $difference = time() - $timestamp;
+  $periods = array("second", "minute", "hour", "day", "week", "month", "years");
+  $lengths = array("60","60","24","7","4.35","12");
+ 
+  // Past or present
+  if ($difference === 0) {
+    return 'Just now';
+  }
+  if ($difference >= 0)
+  {
+    $ending = "ago";
+  }
+  else
+  {
+    $difference = -$difference;
+    $ending = "to go";
+  }
+ 
+  // Figure out difference by looping while less than array length
+  // and difference is larger than lengths.
+  $arr_len = count($lengths);
+  for($j = 0; $j < $arr_len && $difference >= $lengths[$j]; $j++)
+  {
+    $difference /= $lengths[$j];
+  }
+ 
+  // Round up
+  $difference = round($difference);
+ 
+  // Make plural if needed
+  if($difference != 1)
+  {
+    $periods[$j].= "s";
+  }
+ 
+  // Default format
+  $text = "$difference $periods[$j] $ending";
+ 
+  // over 24 hours
+  if($j > 2)
+  {
+    // future date over a day formate with year
+    if($ending == "to go")
+    {
+      if($j == 3 && $difference == 1)
+      {
+        $text = "Tomorrow at ". date("g:i a", $timestamp);
+      }
+      else
+      {
+        $text = date("F j, Y \a\\t g:i a", $timestamp);
+      }
+      return $text;
+    }
+ 
+    if($j == 3 && $difference == 1) // Yesterday
+    {
+      $text = "Yesterday at ". date("g:i a", $timestamp);
+    }
+    else if($j == 3) // Less than a week display -- Monday at 5:28pm
+    {
+      $text = date("l \a\\t g:i a", $timestamp);
+    }
+    else if($j < 6 && !($j == 5 && $difference == 12)) // Less than a year display -- June 25 at 5:23am
+    {
+      $text = date("F j \a\\t g:i a", $timestamp);
+    }
+    else // if over a year or the same month one year ago -- June 30, 2010 at 5:34pm
+    {
+      $text = date("F j, Y \a\\t g:i a", $timestamp);
+    }
+  }
+ 
+  return $text;
 }
